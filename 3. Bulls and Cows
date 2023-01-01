@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        map<int,int> mp1;
+        map<int,int> mp2;
+        int n1 = secret.size();
+        int n2 = guess.size();
+
+        for(int i = 0; i < n1; i++) mp1[secret[i]]++;
+        for(int i = 0; i < n2; i++) mp2[guess[i]]++;
+
+        int cows = 0 , bulls = 0;
+        for(auto it : mp1){
+            cows += min(it.second , mp2[it.first]);
+        }
+
+        for(int i = 0; i < n2; i++){
+            if(guess[i] == secret[i]) bulls++;
+        }
+
+        string ans;
+        ans += to_string(bulls);
+        ans += "A";
+        ans += to_string(cows-bulls);
+        ans += "B";
+
+        return ans;
+    }
+};
