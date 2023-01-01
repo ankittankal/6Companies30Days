@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void helper(int ind , vector<int> &curr , vector<int> &v , int k , int n){
+
+        if(ind == -1){
+            if(k == 0 and n == 0){
+                 ans.push_back(curr);
+                 cout << n << endl;
+            }
+            return;
+        }
+
+        if(n > 0){
+            //pick the element
+            curr.push_back(v[ind]);
+            helper(ind-1 , curr , v , k-1 , n-v[ind]);
+            curr.pop_back();
+        }
+
+        //Don't pick the element
+        helper(ind-1 , curr , v , k , n);
+        
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> v;
+        for(int i = 1; i < 10; i++) v.push_back(i);
+
+        vector<int> curr;
+        helper(8,curr,v,k,n);
+        return ans;
+    }
+};
