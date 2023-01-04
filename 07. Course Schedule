@@ -1,3 +1,8 @@
+//There are Two ways to solve this Question : 
+//1. one is using Cycle Detection technique in a directed Graph
+//2. Another one is using topo sort Technique
+
+//Below code is the implementation of Cycle Detection Technique
 class Solution {
 public:
     bool DFS(int node , vector<int> &visited , vector<int> &pathVisited , vector<vector<int>> &adj){
