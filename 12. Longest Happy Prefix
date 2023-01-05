@@ -1,0 +1,33 @@
+//Reference for KMP Algorithm : https://youtu.be/JoF0Z7nVSrA
+
+class Solution {
+    //KMP algorithm very important
+public:
+    string longestPrefix(string s) {
+        int n = s.size();
+
+        //creating lps array using kmp algorithm
+        int i=1,prev_match = 0;
+        vector<int> lps(n,0);
+        while(i<n){
+            if(s[i] == s[prev_match]){
+                 lps[i] = prev_match + 1;
+                 i++;
+                 prev_match++;
+            }
+            else{
+                if(prev_match == 0){
+                    lps[i] == 0;
+                    i++;
+                }
+                else if(prev_match > 0){
+                    prev_match = lps[prev_match-1];
+                }
+            }
+        }
+
+        int lenOfPrefixSuffix = lps[n-1];
+        string ans = s.substr(0,lenOfPrefixSuffix);
+        return ans;
+    }
+};
