@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        int maxi = 0;
+
+            for(int i = 0; i < n; i++){
+                double x1 = points[i][0];
+                double y1 = points[i][1];
+                unordered_map<double,int> mp;
+                int straight = 0;
+
+                for(int j = i+1 ; j < n; j++){
+                    double x2 = points[j][0];
+                    double y2 = points[j][1];
+
+                    if(x2-x1 == 0) straight++;      //if slope is infinity
+                    else{ 
+                        double slope = (y2-y1)/(x2-x1);
+                        mp[slope]++;
+                    }
+                }
+
+                for(auto it : mp) maxi = max(maxi , it.second);
+
+                maxi = max(maxi , straight);
+            }
+
+        return maxi+1;     //plus one is for including the point itself with which we are finding slope 
+    }
+};
