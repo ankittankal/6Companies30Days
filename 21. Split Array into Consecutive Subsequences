@@ -1,0 +1,28 @@
+//It uses concept of avilabilty and vacancy 
+class Solution {
+public:
+    bool isPossible(vector<int>& nums) {
+        unordered_map<int,int> avilability;
+        unordered_map<int,int> vacancy;
+        int n = nums.size();
+
+        for(int i = 0; i < n; i++) avilability[nums[i]]++;
+
+        for(int i = 0; i < n; i++){
+            int num = nums[i];
+
+            if(vacancy[num] > 0){
+                vacancy[num]--;
+                vacancy[num+1]++;
+                avilability[num]--;
+            }
+            else if(avilability[num+1] > 0 and avilability[num+2] > 0){
+                avilability[num+1]--;
+                avilability[num+2]--;
+                vacancy[num+1]++;
+            }
+            else return false;
+        }
+        return true;
+    }
+};
