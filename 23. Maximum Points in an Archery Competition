@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> bob;
+    int total;
+    int mini = INT_MAX;
+    void helper(int ind , vector<int> &alice , 
+        vector<int> &curr , int alice_points){
+        
+        if(ind == 0){     
+            if(alice_points < mini){
+                bob = curr;
+                if(total > 0) bob[0] = total;   //remaining arrows sholud be included at zero index
+                mini = alice_points;
+            }
+            return;
+        }
+
+        //Not pick
+        helper(ind-1 , alice , curr , alice_points);
+
+        //Pick
+        if(total >= alice[ind]+1){
+            curr[ind] = alice[ind]+1;
+            total-= alice[ind]+1;
+            helper(ind-1 , alice , curr , alice_points-ind);
+            total += alice[ind]+1;
+            curr[ind] = 0;
+        }
+
+        return;
+    }
+    vector<int> maximumBobPoints(int numArrows, vector<int>& alice){
+        total = numArrows;
+        int n = alice.size();
+        int alice_points = 0;
+        vector<int> curr(n,0);
+
+        for(int i = 0; i < n; i++) if(alice[i] > 0) alice_points += i;
+
+        helper(n-1,alice,curr,alice_points);
+        return bob;
+    }
+};
