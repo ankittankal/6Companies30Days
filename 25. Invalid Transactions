@@ -1,0 +1,67 @@
+class Solution {
+public:
+    vector<string> invalidTransactions(vector<string>& transactions) {
+        int n = transactions.size();
+        vector<string> names;
+        vector<int> time;
+        vector<int> amount;
+        vector<string> city;
+
+        for(int i = 0; i < n; i++){
+            string trans = transactions[i];
+            int sz = trans.size();
+
+            int j = 0;
+            string temp;
+            while(j<sz and trans[j] != ','){
+                temp.push_back(trans[j]);
+                j++;
+            }
+            names.push_back(temp);
+            j++;
+
+            temp = "";
+            while(j<sz and trans[j] != ','){
+                temp.push_back(trans[j]);
+                j++;
+            }
+            time.push_back( stoi(temp) );
+            j++;
+
+            temp = "";
+            while(j<sz and trans[j] != ','){
+                temp.push_back(trans[j]);
+                j++;
+            }
+            amount.push_back( stoi(temp) );
+            j++;
+
+            temp = "";
+            while(j<sz){
+                temp.push_back(trans[j]);
+                j++;
+            }
+            city.push_back(temp);
+        } 
+
+        vector<string> ans;
+        for(int i = 0; i < n; i++){
+            string name = names[i];
+            if(amount[i] < 1000){
+                for(int j = 0; j < n; j++){
+                    if(i == j) continue;
+                    if(name == names[j] and city[i] != city[j] 
+                        and abs(time[i]-time[j]) <= 60){
+                         ans.push_back(transactions[i]); 
+                         break;  
+                    }
+                }
+            }
+            else{
+                ans.push_back(transactions[i]);
+            }
+        }
+
+        return ans;
+    }
+};
