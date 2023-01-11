@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int m;
+    int n;
+    bool isvalid(int i, int j){
+        return i>=0 && i<m && j>=0 && j<n;
+    }
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        set<int>s;
+        m = grid.size(); 
+        n = grid[0].size();
+
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[0].size(); j++){
+                s.insert(grid[i][j]);
+            }
+        }
+        for(int k=1; k<=50; k++){
+            for(int i=0; i<m; i++){
+                for(int j=0; j<n; j++){
+                  int row = i;
+                  int col = j;
+                    if(isvalid(row,col-k) && isvalid(row,col+k) && isvalid(row-k,col) && isvalid(row+k,col)){
+                    int sum = grid[row][col-k] + grid[row][col+k] + grid[row-k][col] + grid[row+k][col];
+                        for(int l = 1; l < k ; l++) sum += grid[row-l][col+k-l];
+                        for(int l = 1; l < k ; l++) sum += grid[row+l][col+k-l];
+                        for(int l = 1; l < k ; l++) sum += grid[row+l][col-k+l];
+                        for(int l = 1; l < k ; l++) sum += grid[row-l][col-k+l];
+                        s.insert(sum);
+                    }
+                }
+            }
+        }
+        vector<int>v;
+        for(auto it: s){
+            v.push_back(it);
+        }
+        reverse(v.begin(), v.end());
+        vector<int>ans;
+        if(v.size()<3){return v;}
+        for(int i=0; i<3; i++){ans.push_back(v[i]);}
+        return ans;
+    }
+};
