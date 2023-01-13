@@ -1,0 +1,54 @@
+//Time : O(n) Space : O(n)
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int n = nums.size();
+        int mini = nums[0];
+        int maxi = nums[n-1];
+        vector<int> min_left;
+        min_left.push_back(mini);
+        vector<int> max_right;
+        max_right.push_back(maxi);
+
+        for(int i = 1; i < n ; i++){
+            mini = min(mini,nums[i]);
+            min_left.push_back(mini);
+        }
+
+        for(int i = n-2; i >= 0 ; i--){
+            maxi = max(maxi,nums[i]);
+            max_right.push_back(maxi);
+        }
+
+        reverse(max_right.begin() , max_right.end());
+        for(int i = 1; i < n-1 ; i++){
+            if(min_left[i-1] < nums[i] and nums[i] < max_right[i+1]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
+
+//OPTIMIZED APPROACH :
+//Time : O(n) Space : O(1)
+
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int n = nums.size();
+        int min = INT_MAX;
+        int mid = INT_MAX;
+        for(int i = 0; i < n; i++){
+            if(nums[i] <= min){
+                min= nums[i];
+            }else if(nums[i] <= mid){
+                mid = nums[i];
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+};
