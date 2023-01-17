@@ -1,0 +1,21 @@
+
+class Solution {
+public:
+    int ans = 0;
+    pair<int,int> helper(TreeNode* root){
+        if(root == NULL) return {0,0};
+
+        pair<int,int> left = helper(root->left );
+        pair<int,int> right = helper(root->right );
+
+        int subTree_sum = root->val + left.first + right.first;
+        int cnt = 1 + left.second + right.second;
+        if(subTree_sum/cnt == root->val) ans++;
+
+        return {subTree_sum,cnt};
+    }
+    int averageOfSubtree(TreeNode* root) {
+        helper(root);
+        return ans;
+    }
+};
