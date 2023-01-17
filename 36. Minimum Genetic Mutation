@@ -1,0 +1,40 @@
+//This question same as word ladder (Graph) problem 
+
+class Solution {
+public:
+    int minMutation(string start, string end, vector<string>& bank) {
+        unordered_map <string , bool> mp;
+
+        //put all the possible strings into the map
+        for(int i = 0 ; i < bank.size() ; i++) mp[bank[i]] = true;
+
+        queue<pair<string , int>> q;
+        q.push({start ,0});
+        if(mp.find(start) != mp.end()) mp.erase(start);
+
+        //possible mutations
+        vector<char> mut{'A' , 'C' , 'G' , 'T'};
+
+        while(!q.empty()){
+            string gene = q.front().first;
+            int dis = q.front().second;
+            q.pop();
+            if(gene == end) return dis;
+
+            for(int i = 0 ; i < 8 ; i++){
+                char original = gene[i];
+
+                for(int j = 0 ; j < 4 ; j++){
+                    gene[i] = mut[j];
+                    if(mp.find(gene) != mp.end()){
+                        mp.erase(gene);
+                        q.push({gene , dis+1});
+                    } 
+                }
+                gene[i] = original; 
+            }
+            
+        }
+        return -1;
+    }
+};
