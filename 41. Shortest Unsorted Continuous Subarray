@@ -1,0 +1,35 @@
+//S.C : O(N)
+//T.C : O(N)
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int n = nums.size();
+        stack<int> st1; //Increasing stack
+        stack<int> st2; //Decreasing stack
+        int maxi = 0;
+        int mini = n-1;
+        for(int i = 0; i < n; i++){
+            if(!st1.empty() and nums[st1.top()] > nums[i]){
+                while(!st1.empty() and nums[st1.top()] > nums[i]){
+                    mini = min(mini , st1.top());
+                    st1.pop();
+                }
+            }
+            st1.push(i);
+        }
+
+        for(int i = n-1; i >= 0; i--){
+            if(!st2.empty() and nums[st2.top()] < nums[i]){
+                while(!st2.empty() and nums[st2.top()] < nums[i]){
+                    maxi = max(maxi , st2.top());
+                    st2.pop();
+                }
+            }
+            st2.push(i);
+        }
+
+        if(maxi == 0) return 0;
+        return maxi-mini+1;
+    }
+};
