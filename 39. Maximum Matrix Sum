@@ -1,0 +1,42 @@
+/*
+if the no. of negetives in the matix is even then we can convert all the negetives to positives , 
+if the no. of negetives in the matrix is odd we will end of having one negetive number so , we 
+will create the smallest possible negetive number to maximise the sum .
+(we can convert every number to a negetive number) 
+*/
+  
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        int maxi = INT_MAX;
+        int row = -1 , col = -1;
+        int cntNeg = 0;
+        long long ans = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                
+                if(matrix[i][j] <= 0){
+                    cntNeg++;
+                }
+
+                if(matrix[i][j] < maxi){
+                    maxi = min(maxi,abs(matrix[i][j]));
+                    row = i;
+                    col = j;
+                }
+                
+                ans += abs(matrix[i][j]);
+            }
+        }
+
+        if(cntNeg%2 == 0) return ans;
+        else{
+            ans -= 2*maxi; 
+        }
+
+        return ans;
+    }
+};
