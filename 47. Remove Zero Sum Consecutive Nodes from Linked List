@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        
+        unordered_map<int , ListNode*> mp; //to keep track of prefix sum
+        ListNode* dummy = new ListNode(1001);
+        dummy->next = head;
+        ListNode* curr = dummy;
+
+        //traverse in the linked list and keep storing the prefix sums into the map
+        int sum = 0;
+        while(curr != NULL){
+
+            sum += curr->val;               //current prefix sum
+            //cout << sum << " " << endl;
+            if(mp.find(sum) != mp.end()){
+                //remove the prefix sums between the two nodes from the map
+                ListNode* to_remove = mp[sum]->next;
+                int curr_sum = sum + to_remove->val;
+
+                //remove values from the map
+                while(to_remove != curr){
+                    mp.erase(curr_sum);
+                    cout << to_remove->val << " ";
+                    to_remove = to_remove->next;
+                    curr_sum += to_remove->val;
+                }
+                //cout << endl;
+                //make a connection between two nodes
+                mp[sum]->next = curr->next;
+                if(curr->next)cout << curr->next->val;
+                //cout << endl;
+            }
+            else{
+                mp[sum] = curr;
+            }
+
+            curr = curr->next;
+        }
+
+        return dummy->next;
+    }
+};
