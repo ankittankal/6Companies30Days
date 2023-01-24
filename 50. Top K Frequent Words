@@ -1,0 +1,36 @@
+class Solution {
+public:
+struct cmp { 
+    bool operator()(const pair<int,string> below , const pair<int, string> above){
+        if(below.first == above.first){
+            return below.second < above.second;
+        }
+        return below.first > above.first;
+    }
+};
+
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        int n = words.size();
+
+        unordered_map<string,int> freq;
+        priority_queue<pair<int,string>, vector<pair<int,string>>, cmp > pq;
+        for(int i = 0; i < n; i++) freq[words[i]]++;
+
+        for(auto it : freq){
+            if(pq.size() < k) pq.push({it.second,it.first});
+            else{
+                pq.push({it.second,it.first});
+                pq.pop();
+            }
+        }
+
+        vector<string> ans;
+        while(!pq.empty()){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
