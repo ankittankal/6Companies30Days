@@ -1,0 +1,19 @@
+
+class Solution {
+public:
+    pair<int,int> DFS(TreeNode* root){
+        if(root == NULL) return {0,0};
+
+        pair<int,int> left = DFS(root->left);
+        pair<int,int> right = DFS(root->right);
+
+        int maxSumWith_root = root->val + left.second + right.second;
+        int maxSumWithout_root = max(left.first, left.second) + max(right.first, right.second);
+
+        return {maxSumWith_root , maxSumWithout_root}; 
+    }
+    int rob(TreeNode* root) {
+        pair<int,int> max_amount = DFS(root);
+        return max(max_amount.first , max_amount.second);
+    }
+};
