@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void DFS(int i ,int j, int &cnt, vector<vector<int>> &visited,  vector<vector<int>> &grid){
+
+        visited[i][j] = 1;
+
+        vector<int> r_diff = {0,-1,0,1};
+        vector<int> c_diff = {-1,0,1,0};
+        for(int k = 0;  k < 4; k++){
+            int n_row = i + r_diff[k]; 
+            int n_col = j + c_diff[k];
+            if(n_row >= 0 and n_row < grid.size() and n_col >= 0 
+            and n_col < grid[0].size() and grid[n_row][n_col] == 1 and 
+            !visited[n_row][n_col]){
+                cnt++;
+                DFS(n_row,n_col,cnt,visited,grid);
+            }
+        }
+    }
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int ans = 0;
+        vector<vector<int>> visited(m , vector<int> (n,0));
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1 and !visited[i][j]){
+                    int cnt = 1;
+                    DFS(i,j,cnt,visited,grid);
+                    ans = max(ans,cnt);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
