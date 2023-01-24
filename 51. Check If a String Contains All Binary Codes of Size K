@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        set<string> st;
+        int n = s.size();
+
+        int i = 0 , j = 0;
+        while(j<n){
+            if(j-i+1 < k){
+                j++;
+            }
+            else{
+                if(st.find(s.substr(i,k)) == st.end())st.insert(s.substr(i,k));
+                i++;
+                j++;
+            }
+        }
+
+        return st.size() == pow(2,k);
+    }
+};
