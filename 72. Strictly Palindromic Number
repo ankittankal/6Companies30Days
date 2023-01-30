@@ -1,0 +1,38 @@
+class Solution {
+public:
+        bool getNumCheck(int n,int base){
+        
+        string temp = "";
+        
+        // converting n into string representation of base 
+        while(n){
+            temp += to_string(n%base);
+            n/=base;
+        }
+        
+        // checking if string is pallindrome or not using two pointer technique
+        int start = 0;
+        int end = temp.size()-1;
+        
+        while(start<end){
+            
+            if(temp[start]!=temp[end]) return false; 
+            
+            start++;
+            end--;
+        }
+        return true;
+    }
+    
+    bool isStrictlyPalindromic(int n) {
+         
+        // checking for every base from 2 -> n-2
+        
+        for(int i = 2;i<=n-2;i++){
+            
+            // getNumCheck function converts n into string representation of base i and return true pallindrome
+            if(!getNumCheck(n,i)) return false; 
+        }
+        return true;
+    }
+};
