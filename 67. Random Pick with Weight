@@ -1,0 +1,31 @@
+/*
+say we have the numbers 1, 5, 2 easiest solution is to construct the following array
+arr[] = {0,1,1,1,1,1,2,2}
+then generate a random number between 0 and 7 and return the arr[rnd]. This is solution is not really good though due to the space requirements it has (imagine a number beeing 2billion).
+
+The solution here is similar but instead we construct the following array (accumulated sum)
+{1, 6, 8} generate a number between 1-8 and say all numbers generated up to 1 is index 0. all numbers generated greater than 1 and up to 6 are index 1 and all numbers greater than 6 and up to 8 are index 2. After we generate a random number to find which index to return we use binary search.
+*/
+
+class Solution {
+public:
+    vector<int> pref;
+    int max = 0;
+    Solution(vector<int>& w) {
+        int n = w.size();
+        pref.push_back(w[0]);
+        for(int i = 1; i < n; i++) pref.push_back(pref[i-1]+w[i]);
+        max = pref[n-1];
+    }
+    
+    int pickIndex() {
+        int find= rand()%max;
+        return upper_bound(pref.begin(), pref.end(), find)-pref.begin();
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
