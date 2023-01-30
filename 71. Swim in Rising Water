@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void DFS(int time, int i, int j,
+            vector<vector<int>>& grid , vector<vector<int>> &visited){
+        
+        int n = grid.size();
+        if(grid[i][j] <= time and !visited[i][j]){
+            visited[i][j] = 1;
+            int row_d[] = {0,-1,0,1};
+            int col_d[] = {-1,0,1,0};
+            for(int k = 0; k < 4; k++){
+                int n_row = i + row_d[k];
+                int n_col = j + col_d[k];
+                if(n_row >= 0 and n_row < n and n_col >= 0 
+                    and n_col < n){
+                        DFS(time,n_row,n_col,grid,visited);
+                }
+            }
+        }
+        
+    }
+
+    int swimInWater(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int left = 0;
+        int right = n*n;    //because , 0 <= grid[i][j] < n2
+
+        //Binary Search on ans(time)
+        while(left < right){
+            int mid = (left+right)/2;   //Time
+            vector<vector<int>> visited(n, vector<int> (n,0));
+            DFS(mid,0,0,grid,visited);
+            if(visited[n-1][n-1] == 1){
+                right = mid;
+            }else{
+                left = mid+1;
+            }
+        }
+        return right; 
+    }
+};
