@@ -1,0 +1,40 @@
+class Solution {
+public:
+    void isClosed(int i, int j, vector<vector<int>> &grid ,vector<vector<int>> &visited, 
+    bool &isBorderNotReached){
+        visited[i][j] = 1;
+        
+        //last row or last column 
+        if(i == grid.size()-1 or j == grid[0].size()-1) isBorderNotReached = false;
+        //first row or first column
+        if(i == 0 or j == 0) isBorderNotReached = false;
+
+        int row_diff[] = {0,-1,0,1};
+        int col_diff[] = {-1,0,1,0};
+        for(int k = 0; k < 4; k++){
+            int n_row = i + row_diff[k];
+            int n_col = j + col_diff[k];
+            if(n_row >= 0 and n_row < grid.size() and n_col >= 0 and n_col < grid[0].size() and grid[n_row][n_col] == 0 and !visited[n_row][n_col]){
+                isClosed(n_row,n_col,grid,visited,isBorderNotReached);
+            }
+        }
+    }
+
+    int closedIsland(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int ans = 0;
+
+        vector<vector<int>> visited(m, vector<int> (n,0));
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                bool isBorderNotReached = true;
+                if(grid[i][j] == 0 and !visited[i][j]){
+                    isClosed(i,j,grid,visited,isBorderNotReached);
+                    if(isBorderNotReached) ans++;
+                }
+            }
+        }
+        return ans;
+    }
+};
