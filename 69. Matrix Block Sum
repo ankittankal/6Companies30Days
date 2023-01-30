@@ -1,0 +1,50 @@
+//https://leetcode.com/problems/matrix-block-sum/solutions/620405/easy-prefix-logic-explanation-with-matrix-example-python-soution/
+
+class Solution {
+public:
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int k) {
+        int m = mat.size();
+        int n = mat[0].size();
+        vector<vector<int>> prefixMat(m, vector<int> (n,0));
+
+        //calculate the prefix sum for each row and store in prefix matrix
+        for(int i = 0; i < m; i++){
+            int sum = 0;
+            for(int j = 0; j < n; j++){
+                sum += mat[i][j];
+                prefixMat[i][j] = sum;
+            }
+        }
+
+        //calculate the sum col-wise of prefix matrix
+        for(int i = 0; i < n; i++){
+            int sum = 0;
+            for(int j = 0; j < m; j++){
+                sum += prefixMat[j][i];
+                prefixMat[j][i] = sum;
+            }
+        }
+
+        vector<vector<int>> ans(m, vector<int> (n,0));
+        //go to each cell of the matrix and find ans
+        for(int i = 0; i < m; i++){
+            int topRow = max(0,i-k);
+            int downRow = min(i+k,m-1);
+            for(int j = 0; j < n; j++){
+                int leftCol = max(0,j-k);
+                int rightCol = min(j+k,n-1);
+
+                int value = prefixMat[downRow][rightCol];
+                if(topRow-1>=0)
+                    value-=prefixMat[topRow-1][rightCol];
+                if(leftCol-1>=0)
+                    value-=prefixMat[downRow][leftCol-1];
+                if(topRow-1>=0 and leftCol-1>=0)
+                    value+=prefixMat[topRow-1][leftCol-1];
+                
+                ans[i][j]=value;
+            }
+        }
+        return ans;
+    }
+};
