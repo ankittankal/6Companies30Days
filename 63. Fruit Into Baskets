@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        unordered_map<int,int> bascket;
+        int i =0 , j =0 , n=fruits.size(),ans = -1;
+
+        while(j<n){
+            //keep track of the diff. type of fruits we can have   
+            bascket[fruits[j]]++;
+
+            //check if the bascket size is less then or equal to 2 or not
+            if(bascket.size() <= 2){
+                ans = max(ans,j-i+1);
+                j++;
+            }
+            else{
+                while(bascket.size() > 2){
+                    bascket[fruits[i]]--;
+                    if(bascket[fruits[i]] == 0) bascket.erase(fruits[i]);
+                    i++;
+                }
+                j++;
+            }
+        }
+        return ans;
+    }
+};
