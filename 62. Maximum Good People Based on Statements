@@ -1,0 +1,32 @@
+class Solution {
+private:
+    bool isCorrect_Configuration(int c, vector<vector<int>>& arr, int n){
+        for(int i=0; i<n; i++){
+            if(c & (1<<i)){ //if ith person is a good person then only check his row
+                for(int j=0; j<n; j++){
+                    if(arr[i][j] != 2 && arr[i][j] != bool(c & (1<<j))){
+                        return false; //if at any moment, the given configuration fails to distinguish between good person or bad person according to given statements(arr), just return false, coz this an invalid configuration.
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+public:
+    int maximumGood(vector<vector<int>>& arr) {
+        int n = arr.size();
+        
+        //Power set 
+        int maxi = 0;
+        for(int c=0; c<(1<<n); c++){ //generate all configurations
+            if(isCorrect_Configuration(c,arr,n)){ //if its a valid config, count the number of good persons in the mask
+                maxi = max(maxi,__builtin_popcount(c)); //and return the maximum of them
+            }
+        }
+        return maxi;
+        
+        //TC = O(N^2 * 2^N)
+        //SC = O(1)
+    }
+};
