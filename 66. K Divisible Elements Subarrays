@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int countDistinct(vector<int>& nums, int k, int p) {
+        int n = nums.size();
+        set<vector<int>> ans;
+        for(int i = 0; i < n; i++){
+            int max_divisibleCount = k;
+            vector<int> curr;
+            for(int j = i; j < n; j++){
+                if(max_divisibleCount == 0 and nums[j]%p == 0) break;
+
+                if(nums[j]%p == 0) max_divisibleCount--;
+                curr.push_back(nums[j]);
+                ans.insert(curr);
+                //if(max_divisibleCount == 0) break;
+            }
+        }
+
+        //for(auto it : ans){
+        //    for(auto num : it) cout << num << " ";
+        //    cout << endl;
+        //}
+
+        return ans.size();
+    }
+};
