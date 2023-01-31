@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<int> mergeSortedArrays(vector<int> &left,vector<int> &right){
+        int i = 0;
+        int j = 0;
+
+        vector<int> merged;
+        while(i<left.size() and j<right.size()){
+            if(left[i] < right[j]){
+                merged.push_back(left[i]);
+                i++;
+            }else if(left[i] > right[j]){
+                merged.push_back(right[j]);
+                j++;
+            }else{
+                merged.push_back(left[i]);
+                merged.push_back(right[j]);
+                i++;
+                j++;
+            }
+        }
+
+        while(i < left.size()){ merged.push_back(left[i]);i++;}
+        while(j < right.size()){ merged.push_back(right[j]); j++;}
+
+        return merged;
+    }
+
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        int mid = n/2;
+        if(n%2 == 0) mid = mid-1;
+
+        if(nums.size() == 1) return nums;
+
+        vector<int> first_half;
+        for(int i = 0; i <= mid; i++) first_half.push_back(nums[i]);
+
+        vector<int> second_half;
+        for(int i = mid+1; i < n; i++) second_half.push_back(nums[i]);
+
+        vector<int> left = sortArray(first_half);
+        vector<int> right = sortArray(second_half);
+
+        vector<int> merged = mergeSortedArrays(left,right);
+
+        return merged;
+    }
+};
