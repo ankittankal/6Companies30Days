@@ -1,0 +1,57 @@
+//brute Force 
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int n = s.size();
+        int ans = 0;
+        for(int i = 0; i < words.size() ; i++){
+            //string curr = words[i];
+            int ptr1 = 0 , ptr2 = 0;
+            int word_sz = words[i].size();
+
+            while(ptr1 < s.size() and ptr2 < word_sz){
+                if(s[ptr1] == words[i][ptr2]){
+                    ptr1++;
+                    ptr2++;
+                }
+                else{
+                    ptr1++;
+                }
+            }
+            if(ptr2 == word_sz) ans++;
+        }
+
+        return ans;
+    }
+};
+
+
+//optimised
+
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        map<char,vector<int>> mp;
+        for(int i = 0; i < s.size(); i++) mp[s[i]].push_back(i);
+
+        int ans = 0;
+        for(int i = 0; i < words.size(); i++){
+            string curr = words[i];
+            int ptr = -1;
+            int j = 0;
+            for(j = 0; j < curr.size() ; j++){
+                if(mp.find(curr[j]) != mp.end()){
+                    int ind = upper_bound(mp[curr[j]].begin() , mp[curr[j]].end() , ptr) 
+                                                                    - mp[curr[j]].begin();
+                    if(ind == mp[curr[j]].size()) break;
+                    ptr = mp[curr[j]][ind];
+                }
+                else{
+                    break;
+                }
+            }
+            if(j == curr.size()) ans++;
+        }   
+        return ans;
+    }
+};
