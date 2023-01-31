@@ -1,0 +1,13 @@
+class Solution {
+public:
+//conclusion : The ants change their way when they meet is equivalent to continue moving without changing their direction
+    int getLastMoment(int n, vector<int>& left, vector<int>& right) {
+        int n1 = left.size();
+        int n2 = right.size();
+        sort(left.begin(),left.end());
+        sort(right.begin(),right.end());
+        if(n1 == 0) return n-right[0];
+        if(n2 == 0) return left[n1-1];
+        return max(left[n1-1] , n-right[0]);
+    }
+};
