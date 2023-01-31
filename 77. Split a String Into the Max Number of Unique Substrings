@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void helper(int index , string s , unordered_map<string,int>& mp, int n , int& max_unique){
+        if(index == n){
+            int sz = mp.size();
+            max_unique = max(max_unique , sz);
+            return;}
+        
+        for(int i = index ; i < n ; i++){
+            if(mp.count(s.substr(index , i - index + 1))){
+                continue;
+            }
+            else{
+                mp[s.substr(index , i - index + 1)] = 1;
+                helper(i+1 , s , mp , n , max_unique);
+                mp.erase(s.substr(index , i - index + 1));
+            }
+        }
+        return;
+    }
+    
+    int maxUniqueSplit(string s) {
+        unordered_map<string , int> mp;
+        int n = s.size();
+        int max_unique = 0;
+        helper(0 , s , mp , n , max_unique);
+        return max_unique;
+    }
+};
