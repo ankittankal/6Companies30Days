@@ -1,0 +1,21 @@
+class Solution {
+public:
+int mod = 1e9+7;
+    int helper(int startPos , int endPos , int k, vector<vector<int>> &dp){
+        if(startPos == endPos and k == 0) return 1;
+
+        if(startPos != endPos and k == 0) return 0;
+
+        if(dp[startPos+1000][k] != -1) return dp[startPos+1000][k]%mod;
+
+        int left = helper(startPos-1 , endPos , k-1, dp)%mod;
+        int right = helper(startPos+1 , endPos , k-1, dp)%mod;
+
+        return dp[startPos+1000][k] = (left+right)%mod;
+    }
+    int numberOfWays(int startPos, int endPos, int k) {
+        //dp array
+        vector<vector<int>> dp(4001,vector<int> (1001,-1));
+        return helper(startPos , endPos , k, dp);
+    }
+};
