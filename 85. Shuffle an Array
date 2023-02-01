@@ -1,0 +1,38 @@
+/*STEPS :
+1.create random index in the range [0,nums.size() )
+2.swap the values at current index and random index generated
+3.decrement nums range
+*/
+
+class Solution {
+public:
+vector<int> v;
+    Solution(vector<int>& nums) {
+        v = nums;
+    }
+    
+    vector<int> reset() {
+        return v;
+    }
+    
+    vector<int> shuffle() {
+        int n = v.size();
+        vector<int> suff(n);
+        suff = v;
+
+        int till = n;
+        for(int i = n-1; i >= 0; i--){
+            int random_ind = rand()%till;
+            swap(suff[i],suff[random_ind]);
+            till--;
+        }
+        return suff;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
